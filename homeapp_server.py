@@ -38,7 +38,7 @@ except ImportError:
         dietcherrypy = cherrypy = dietcherrypy_wsgi
     except ImportError:
         import dietcherrypy
-        dietcherrypy = cherrypy
+        cherrypy = dietcherrypy
         dietcherrypy_wsgi = None
 
 
