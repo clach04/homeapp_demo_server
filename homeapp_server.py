@@ -68,6 +68,7 @@ class Root(object):
     def example(self):
         # from http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/66062
         this_function_name = sys._getframe().f_code.co_name
+        print('%s called' % this_function_name)
         return json.dumps({'toast': '%s called' % this_function_name})
     example.exposed = True
 
