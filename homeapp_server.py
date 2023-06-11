@@ -65,11 +65,14 @@ class Root(object):
         return json.dumps(commands_dict)  # optionally make pretty for debugging with indent=4
     commands.exposed = True
 
-    def example(self):
+    def example(self, input=None):
         # from http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/66062
         this_function_name = sys._getframe().f_code.co_name
-        print('%s called' % this_function_name)
-        return json.dumps({'toast': '%s called' % this_function_name})
+        msg = '%s called' % this_function_name
+        if input:
+            msg += ' - input=%r' % input
+        print('%s' % msg)
+        return json.dumps({'toast': msg})
     example.exposed = True
 
     """TODOs:
