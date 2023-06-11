@@ -99,6 +99,12 @@ class Root(object):
                     "icon": "display",
                     "mode": "none"
                 },
+                "generate_refresh": {
+                    "title": "Generate refresh",
+                    "summary": "returns toast with refresh",
+                    "icon": "display",
+                    "mode": "action",
+                },
             }
         }
         return json.dumps(commands_dict)  # optionally make pretty for debugging with indent=4
@@ -173,9 +179,19 @@ class Root(object):
             msg += ' - input=%r' % input
         msg += ' - now=%r' %str( datetime.datetime.now())
         print('%s' % msg)
-        return json.dumps({'toast': msg,
-            "refresh": True})
+        return json.dumps({'toast': msg, "refresh": True})
     mode_none_refresh.exposed = True
+
+    def generate_refresh(self, input=None):
+        # from http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/66062
+        this_function_name = sys._getframe().f_code.co_name
+        msg = '%s called' % this_function_name
+        if input:
+            msg += ' - input=%r' % input
+        msg += ' - now=%r' %str( datetime.datetime.now())
+        print('%s' % msg)
+        return json.dumps({'toast': msg, "refresh": True})
+    generate_refresh.exposed = True
 
 
 def main(argv=None):
