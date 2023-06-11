@@ -86,6 +86,12 @@ class Root(object):
                     "icon": "display",
                     "mode": "none"
                 },
+                "mode_none_refresh": {
+                    "title": "Mode none refresh",
+                    "summary": "DateTime %s" % datetime.datetime.now(),
+                    "icon": "display",
+                    "mode": "none"
+                },
             }
         }
         return json.dumps(commands_dict)  # optionally make pretty for debugging with indent=4
@@ -137,13 +143,22 @@ class Root(object):
         msg = '%s called' % this_function_name
         if input:
             msg += ' - input=%r' % input
+        msg += ' - now=%r' % str(datetime.datetime.now())
         print('%s' % msg)
         return json.dumps({'toast': msg})
     mode_none.exposed = True
 
-    """TODOs:
-    * Toast with; "refresh": true
-    """
+    def mode_none_refresh(self, input=None):
+        # from http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/66062
+        this_function_name = sys._getframe().f_code.co_name
+        msg = '%s called' % this_function_name
+        if input:
+            msg += ' - input=%r' % input
+        msg += ' - now=%r' %str( datetime.datetime.now())
+        print('%s' % msg)
+        return json.dumps({'toast': msg, "refresh": True})
+    mode_none_refresh.exposed = True
+
 
 def main(argv=None):
     if argv is None:
