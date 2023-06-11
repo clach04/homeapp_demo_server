@@ -74,6 +74,13 @@ class Root(object):
                     "icon": "display",
                     "mode": "switch"
                 },
+                "mode_switch_default_on": {
+                    "title": "Mode Switch",
+                    "summary": "Toggle",
+                    "icon": "display",
+                    "mode": "switch",
+                    "data": True
+                },
                 "mode_input": {
                     "title": "Mode Input",
                     "summary": "Prompt user for input",
@@ -81,7 +88,7 @@ class Root(object):
                     "mode": "input"
                 },
                 "mode_none": {
-                    "title": "Mode none",
+                    "title": "Mode none %s" % datetime.datetime.now(),
                     "summary": "DateTime %s" % datetime.datetime.now(),
                     "icon": "display",
                     "mode": "none"
@@ -127,6 +134,16 @@ class Root(object):
         return json.dumps({'toast': msg})
     mode_switch.exposed = True
 
+    def mode_switch_default_on(self, input=None):
+        # from http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/66062
+        this_function_name = sys._getframe().f_code.co_name
+        msg = '%s called' % this_function_name
+        if input:
+            msg += ' - input=%r' % input
+        print('%s' % msg)
+        return json.dumps({'toast': msg})
+    mode_switch_default_on.exposed = True
+
     def mode_input(self, input=None):
         # from http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/66062
         this_function_name = sys._getframe().f_code.co_name
@@ -156,7 +173,8 @@ class Root(object):
             msg += ' - input=%r' % input
         msg += ' - now=%r' %str( datetime.datetime.now())
         print('%s' % msg)
-        return json.dumps({'toast': msg, "refresh": True})
+        return json.dumps({'toast': msg,
+            "refresh": True})
     mode_none_refresh.exposed = True
 
 
