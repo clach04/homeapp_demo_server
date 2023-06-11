@@ -21,6 +21,8 @@ try:
 except ImportError:
     # from http://code.google.com/p/simplejson
     import simplejson as json
+
+import datetime
 import os
 import sys
 
@@ -59,7 +61,31 @@ class Root(object):
                     "icon": "display",
                     "mode": "action"
                     # NOTE mode will default to action if omitted
-                }
+                },
+                "mode_missing": {
+                    "title": "Mode Missing",
+                    "summary": "should default to action",
+                    "icon": "display",
+                    # NOTE mode will default to action if omitted
+                },
+                "mode_switch": {
+                    "title": "Mode Switch",
+                    "summary": "Toggle",
+                    "icon": "display",
+                    "mode": "switch"
+                },
+                "mode_input": {
+                    "title": "Mode Input",
+                    "summary": "Prompt user for input",
+                    "icon": "display",
+                    "mode": "input"
+                },
+                "mode_none": {
+                    "title": "Mode none",
+                    "summary": "DateTime %s" % datetime.datetime.now(),
+                    "icon": "display",
+                    "mode": "none"
+                },
             }
         }
         return json.dumps(commands_dict)  # optionally make pretty for debugging with indent=4
@@ -75,13 +101,48 @@ class Root(object):
         return json.dumps({'toast': msg})
     example.exposed = True
 
+    def mode_missing(self, input=None):
+        # from http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/66062
+        this_function_name = sys._getframe().f_code.co_name
+        msg = '%s called' % this_function_name
+        if input:
+            msg += ' - input=%r' % input
+        print('%s' % msg)
+        return json.dumps({'toast': msg})
+    mode_missing.exposed = True
+
+    def mode_switch(self, input=None):
+        # from http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/66062
+        this_function_name = sys._getframe().f_code.co_name
+        msg = '%s called' % this_function_name
+        if input:
+            msg += ' - input=%r' % input
+        print('%s' % msg)
+        return json.dumps({'toast': msg})
+    mode_switch.exposed = True
+
+    def mode_input(self, input=None):
+        # from http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/66062
+        this_function_name = sys._getframe().f_code.co_name
+        msg = '%s called' % this_function_name
+        if input:
+            msg += ' - input=%r' % input
+        print('%s' % msg)
+        return json.dumps({'toast': msg})
+    mode_input.exposed = True
+
+    def mode_none(self, input=None):
+        # from http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/66062
+        this_function_name = sys._getframe().f_code.co_name
+        msg = '%s called' % this_function_name
+        if input:
+            msg += ' - input=%r' % input
+        print('%s' % msg)
+        return json.dumps({'toast': msg})
+    mode_none.exposed = True
+
     """TODOs:
     * Toast with; "refresh": true
-    * different modes:
-        * missing
-        * switch
-        * input
-        * none
     """
 
 def main(argv=None):
